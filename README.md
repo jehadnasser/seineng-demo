@@ -9,6 +9,7 @@ TODO: add more details
 KinD
 Docker
 kubectl
+helm
 ```
 
 # How to run
@@ -18,9 +19,26 @@ chmod +x start-local.sh
 ./start-local.sh
 ```
 
+- Get Grafana 'admin' user password by running (see the Tech-debt):
+```
+kubectl --namespace monitoring get secrets kps-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
+```
+
+- Add Loki as a datasource to Grafana (see the Tech-debt)
+```
+# Connections > add new connection > search for "Loki" > add this as Connection::URL
+# http://<loki-service-name>.<loki-namespace>.svc.cluster.local:<service-port>
+
+http://loki-gateway.logging.svc.cluster.local
+```
+
 # Tests
 - to check your local registry
 ```
 chmod +x tests/test-local-registry.sh
 ./tests/test-local-registry.sh <REG_PORT>
 ```
+
+TODOs:
+- [Tech-debt] customzie Grafana's admin creds secret
+- [Tech-debt] automate Grafana's data sources
