@@ -8,9 +8,17 @@ import time
 from flask import Flask, render_template, redirect, url_for, request, jsonify
 import requests
 import dateutil.relativedelta
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 app.config["BACKEND_URI"] = 'http://{}/messages'.format(os.environ.get('GUESTBOOK_API_ADDR'))
+
+# static information as metric
+metrics.info('app_info', 'Application info', 
+             version='0.0.1',
+             environment='development',
+             service='guestbook-frontend')
 
 @app.route('/')
 def main():
