@@ -2,6 +2,66 @@
 
 For the instructions of this task see [instructions.md](instructions.md).
 
+## Project structure
+This simple project contains an automated scripts to create:
+- Kind cluster
+- Local registry
+- Deploy a demo full-stack app to the cluster
+- Integrate observability stack for monitoring and logging of the cluster/workload
+```
+.
+├── clusters/
+│   └── dev/
+│       ├── .env
+│       └── shared-k8s-services/
+│           ├── loki
+│           ├── prometheus-stack
+│           ├── promtail
+│           └── namespaces.yaml
+├── scripts/
+│   ├── bootstrap-kind-cluster.sh
+│   ├── bootstrap-local-registry.sh
+│   ├── build-publish-images.sh
+│   ├── cluster-dependencies.sh
+│   ├── configs.sh
+│   ├── deploy-observability-stack.sh
+│   ├── deploy-workloads.sh
+│   └── functions.sh
+├── src/
+│   ├── backend/
+│   │   ├── kubernetes-manifests/
+│   │   ├── requirements.txt
+│   │   ├── Dockerfile
+│   │   └── ...
+│   └── frontend/
+│       ├── kubernetes-manifests/
+│       ├── requirements.txt
+│       ├── Dockerfile
+│       └── ...
+├── tests/
+│   └── test-local-registry.sh
+├── .gitignore
+├── instructions.md
+└── README.md
+```
+
+### `scripts/` This is all the automation scripts in this project in their running order:
+- `scripts/configs.sh` contains all the configurable global values of all scripts
+- `scripts/functions.sh` contains all the shared functions among all scripts
+- `scripts/bootstrap-local-registry.sh`
+- `scripts/bootstrap-kind-cluster.sh`
+- `scripts/cluster-dependencies.sh`
+- `scripts/deploy-observability-stack.sh`
+- `scripts/build-publish-images.sh`
+- `scripts/deploy-workloads.sh`
+
+### `src` this contains the source code of the workloads
+- `src/backend/` the source code of the backend workload with its Dockerfile and the needed manifests for rolling it out.
+- `src/frontend/` the source code of the frontend workload with its Dockerfile and the needed manifests for rolling it out.
+
+### `clusters` this is used to separate the configuration of the helm charts and the k8s services based on enveronmant.
+- `dev` contains all special values of the shared services that's running in the dev cluster. Or any cluster-wide manifest. E.g the manifest and helm chart's values of the observability service can be found in here.
+
 # Before you start
 TODO: add more details
 - You need the following tools to be installed on your local machine(MacOs/Linux)
@@ -42,6 +102,7 @@ kubectl port-forward service/python-guestbook-frontend 8080:80
 # curl/or via browser
 curl "http://localhost:8080"
 ```
+
 # Tests
 - to check your local registry
 ```
