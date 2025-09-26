@@ -34,6 +34,14 @@ kubectl --namespace monitoring get secrets kps-grafana -o jsonpath="{.data.admin
 http://loki-gateway.logging.svc.cluster.local
 ```
 
+- To access the deployed app:
+```
+# port-forward
+kubectl port-forward service/python-guestbook-frontend 8080:80
+
+# curl/or via browser
+curl "http://localhost:8080"
+```
 # Tests
 - to check your local registry
 ```
@@ -51,5 +59,6 @@ frontend-app:v0.0.1 (debian 12.7)
 Total: 832 (HIGH: 791, CRITICAL: 41)
 ```
 - [Tech-debt] the sizes of the docker images is so high (> 1G each)
+- [Tech-debt] harden docker images
 - [Tech-debt] customzie Grafana's admin creds secret
 - [Tech-debt] automate Grafana's data sources

@@ -70,7 +70,7 @@ fi
 # Frontend app -----------------------------
 ##
 frontend_img_name="frontend-app"
-frontend_img_tag="v0.0.2"
+frontend_img_tag="v0.0.3"
 frontend_full_image_name="${local_reg}/${frontend_img_name}:${frontend_img_tag}"
 frontend_dockerfile_path="$REPO_ROOT/src/frontend/Dockerfile"
 frontend_context_path="$REPO_ROOT/src/frontend/"

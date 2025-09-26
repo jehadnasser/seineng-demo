@@ -3,7 +3,7 @@
 #
 
 # for testing this script only, uncomment the following lines:
-# #!/bin/sh
+#!/bin/sh
 # set -eo pipefail
 # reg_port=5001
 # REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -13,6 +13,8 @@
 # local_reg="localhost:${reg_port}"
 # backend_img_name="backend-app"
 # backend_img_tag="v0.0.2"
+# frontend_img_name="frontend-app"
+# frontend_img_tag="v0.0.3"
 
 # manifest paths
 backend_manifest_path="$REPO_ROOT/src/backend/kubernetes-manifests"
@@ -37,4 +39,13 @@ kubectl apply -k "${backend_manifest_path}"
 # clean up the temporary kustomization.yaml file
 rm "${backend_manifest_path}/kustomization.yaml"
 
-# TODO: apply frontend manifests
+# apply frontend manifests
+# Generate a temporary kustomization.yaml file with new image names and tags
+cat "${frontend_manifest_path}/kustomization.yaml.tmpl" | \
+envsubst > "${frontend_manifest_path}/kustomization.yaml"
+
+echo "applying frontend kustomization..."
+# apply the kustomization
+kubectl apply -k "${frontend_manifest_path}"
+# clean up the temporary kustomization.yaml file
+rm "${frontend_manifest_path}/kustomization.yaml"
