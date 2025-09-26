@@ -1,6 +1,5 @@
 #!/bin/sh
 #
-# https://kind.sigs.k8s.io/docs/user/local-registry/
 set -eo pipefail
 
 # get the absolute path of the directory of this script
@@ -18,3 +17,4 @@ source "$REPO_ROOT/scripts/bootstrap-kind-cluster.sh" # needs a running registry
 source "$REPO_ROOT/scripts/cluster-dependencies.sh" # needs a running cluster
 
 source "$REPO_ROOT/scripts/deploy-observability-stack.sh" # needs a running cluster
+source "$REPO_ROOT/scripts/build-deploy-workloads.sh" # needs a running cluster and registry

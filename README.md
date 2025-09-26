@@ -10,6 +10,7 @@ KinD
 Docker
 kubectl
 helm
+trivy
 ```
 
 # How to run
@@ -40,5 +41,14 @@ chmod +x tests/test-local-registry.sh
 ```
 
 TODOs:
+- !!IMPORTANT!! [Tech-debt] Trivy reports for the workloads images shows tons of High/Critical vulnerabilities:
+```
+backend-app:v0.0.1 (debian 12.7)
+Total: 832 (HIGH: 791, CRITICAL: 41)
+----
+frontend-app:v0.0.1 (debian 12.7)
+Total: 832 (HIGH: 791, CRITICAL: 41)
+```
+- [Tech-debt] the sizes of the docker images is so high (> 1G each)
 - [Tech-debt] customzie Grafana's admin creds secret
 - [Tech-debt] automate Grafana's data sources
