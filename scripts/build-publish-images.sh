@@ -4,8 +4,7 @@
 #
 
 # for testing this script only, uncomment the following lines:
-#!/bin/sh
-#
+# #!/bin/sh
 # set -eo pipefail
 # reg_port=5001
 # REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -71,7 +70,7 @@ fi
 # Frontend app -----------------------------
 ##
 frontend_img_name="frontend-app"
-frontend_img_tag="v0.0.1"
+frontend_img_tag="v0.0.2"
 frontend_full_image_name="${local_reg}/${frontend_img_name}:${frontend_img_tag}"
 frontend_dockerfile_path="$REPO_ROOT/src/frontend/Dockerfile"
 frontend_context_path="$REPO_ROOT/src/frontend/"
@@ -81,6 +80,7 @@ echo "Build docker image..."
 DOCKER_BUILDKIT=1 docker build \
   -t "${frontend_img_name}:${frontend_img_tag}" \
   -f "$frontend_dockerfile_path" \
+  "$frontend_context_path"
 
 # scan the image for vulnerabilities
 echo "Scanning image for vulnerabilities..."

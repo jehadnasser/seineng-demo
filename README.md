@@ -11,6 +11,7 @@ Docker
 kubectl
 helm
 trivy
+kustomize
 ```
 
 # How to run
