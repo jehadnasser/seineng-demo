@@ -1,2 +1,38 @@
 grafana:
   enabled: true
+
+alertmanager:
+  enabled: true
+  config:
+    route:
+      group_by: ['alertname', 'team']
+      receiver: 'default-receiver' 
+      routes:
+      # Routing to backend team
+      - receiver: 'pagerduty-guestbook-backend-critical-api-v2'
+        match:
+          team: 'backend'
+          severity: 'critical'
+      # Routing to frontend team
+      - receiver: 'pagerduty-guestbook-frontend-critical-api-v2'
+        match:
+          team: 'frontend'
+          severity: 'critical'
+      - receiver: 'pagerduty-guestbook-other-critical-alerts-api-v2'
+        match:
+          severity: 'critical'
+    receivers:
+    - name: "null" # to avoid alertmanager config validation errors
+    - name: 'default-receiver'
+    - name: 'pagerduty-guestbook-other-critical-alerts-api-v2'
+      pagerduty_configs:
+      - routing_key: ${PAGERDUTY_ROUTING_KEY_OTHER_CRITICAL}
+        send_resolved: true
+    - name: 'pagerduty-guestbook-backend-critical-api-v2'
+      pagerduty_configs:
+      - routing_key: ${PAGERDUTY_ROUTING_KEY_BACKEND_CRITICAL}
+        send_resolved: true
+    - name: 'pagerduty-guestbook-frontend-critical-api-v2'
+      pagerduty_configs:
+      - routing_key: ${PAGERDUTY_ROUTING_KEY_FRONTEND_CRITICAL}
+        send_resolved: true

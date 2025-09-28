@@ -1,2 +1,3 @@
 dev-only/
 .DS_Store
+secret.*
