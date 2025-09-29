@@ -1,5 +1,19 @@
 grafana:
   enabled: true
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Loki
+        type: loki
+        access: proxy
+        orgId: 1
+        url: http://loki-gateway.logging.svc.cluster.local
+        isDefault: false
+        version: 1
+        editable: true
+        jsonData:
+          maxLines: 1000
 
 alertmanager:
   enabled: true
