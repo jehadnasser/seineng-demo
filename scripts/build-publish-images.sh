@@ -11,15 +11,20 @@
 # REPO_ROOT="${REPO_ROOT}/.."
 # cd "$REPO_ROOT"
 
-# Backend app -----------------------------
-##
+echo "\n\nBuilding and publishing images to the local registry..."
+
 local_reg="localhost:${reg_port}"
-backend_img_name="backend-app"
-backend_img_tag="v0.0.2"
+# backend app
 backend_full_image_name="${local_reg}/${backend_img_name}:${backend_img_tag}"
 backend_dockerfile_path="$REPO_ROOT/src/backend/Dockerfile"
 backend_context_path="$REPO_ROOT/src/backend/"
+# Frontend app
+frontend_full_image_name="${local_reg}/${frontend_img_name}:${frontend_img_tag}"
+frontend_dockerfile_path="$REPO_ROOT/src/frontend/Dockerfile"
+frontend_context_path="$REPO_ROOT/src/frontend/"
 
+# Backend app -----------------------------
+##
 # fail fast by checking if the local registry is reachable
 if ! timeout 10s bash -c "until curl -fsS \"http://localhost:${reg_port}/v2/\" >/dev/null; do sleep 0.5; done"; then
   echo "Local registry is not reachable!" >&2
@@ -67,14 +72,9 @@ else
   exit 1
 fi
 
+
 # Frontend app -----------------------------
 ##
-frontend_img_name="frontend-app"
-frontend_img_tag="v0.0.3"
-frontend_full_image_name="${local_reg}/${frontend_img_name}:${frontend_img_tag}"
-frontend_dockerfile_path="$REPO_ROOT/src/frontend/Dockerfile"
-frontend_context_path="$REPO_ROOT/src/frontend/"
-
 # build the docker image
 echo "Build docker image..."
 DOCKER_BUILDKIT=1 docker build \

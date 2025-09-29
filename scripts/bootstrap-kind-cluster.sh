@@ -2,6 +2,8 @@
 # This script creates a local kind cluster with a local registry enabled
 #
 
+echo "\n\nBootstrapping a kind cluster..."
+
 # create a cluster with the local registry enabled in containerd
 # also add a port mapping for the ingress https://kind.sigs.k8s.io/docs/user/ingress/
 cat <<EOF | kind create cluster --config=-

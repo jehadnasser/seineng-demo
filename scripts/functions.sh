@@ -1,6 +1,4 @@
 #!/bin/sh
-
-
 # Get a free port in the range START_PORT(arg)..end_port
 # echo the first free port from START_PORT to stdout and returns 0
 # returns 1 if no free port is found

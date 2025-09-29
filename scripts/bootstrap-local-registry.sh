@@ -2,6 +2,8 @@
 # Bootstrap a local docker registry to be used with kind
 #
 
+echo "\n\nBootstrapping a local docker registry..."
+
 # find a free port (default: $REG_START_PORT_RANGE)
 reg_port="$(get_free_port "$REG_START_PORT_RANGE")" || {
   echo "No free port found!" >&2

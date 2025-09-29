@@ -1,7 +1,7 @@
 #
 # Deploy the workloads to the cluster
 #
-
+echo "\n\nDeploying workloads to the cluster..."
 # for testing this script only, uncomment the following lines:
 #!/bin/sh
 # set -eo pipefail
@@ -17,10 +17,14 @@
 # frontend_img_tag="v0.0.3"
 
 # manifest paths
-backend_manifest_path="$REPO_ROOT/src/backend/kubernetes-manifests"
+env_path="${REPO_ROOT}/clusters/${ENV}/"
+backend_manifest_path="${REPO_ROOT}/src/backend/kubernetes-manifests"
 backend_kustomization_path="${backend_manifest_path}/kustomization.yaml.tmpl"
-frontend_manifest_path="$REPO_ROOT/src/frontend/kubernetes-manifests"
+frontend_manifest_path="${REPO_ROOT}/src/frontend/kubernetes-manifests"
 frontend_kustomization_path="${frontend_manifest_path}/kustomization.yaml.tmpl"
+
+# apply the applications kustomization
+kubectl apply -k "${env_path}"
 
 # define images metadata for envsubst
 export BACKEND_IMAGE_NAME="${local_reg}/${backend_img_name}"

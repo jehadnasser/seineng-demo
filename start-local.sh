@@ -16,6 +16,7 @@ source "$REPO_ROOT/scripts/bootstrap-local-registry.sh"
 source "$REPO_ROOT/scripts/bootstrap-kind-cluster.sh" # needs a running registry
 source "$REPO_ROOT/scripts/cluster-dependencies.sh" # needs a running cluster
 
-source "$REPO_ROOT/scripts/deploy-observability-stack.sh" # needs a running cluster
+source "$REPO_ROOT/scripts/onboard-shared-k8s-services.sh" # needs a running cluster
 source "$REPO_ROOT/scripts/build-publish-images.sh" # needs a running cluster and registry
 source "$REPO_ROOT/scripts/deploy-workloads.sh" # needs a running cluster and registry
+source "$REPO_ROOT/scripts/expose-services-localhost.sh"
