@@ -1,0 +1,30 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: frontend-svc-uptime-critical-alerts
+  namespace: monitoring 
+  labels:
+    release: kps
+    role: alert-rules
+spec:
+  groups:
+  - name: service-health
+    rules:
+    - alert: FrontendDown
+      expr: up{job="python-guestbook-frontend"} == 0
+      for: 1m
+      labels:
+        severity: critical
+        team: frontend
+      annotations:
+        summary: "Frontend service is down"
+        description: "The frontend service called: {{ $labels.service }} in the Namespace: {{ $labels.namespace }} is not reachable for more than 1 minutes!"
+    - alert: FrontendServiceMissing
+      expr: absent(up{job="python-guestbook-frontend"})
+      for: 1m
+      labels:
+        severity: critical
+        team: frontend
+      annotations:
+        summary: "The frontend service is not being scraped"
+        description: "Prometheus has not been able to scrape the frontend service called: {{ $labels.service }} in the Namespace: {{ $labels.namespace }} for 1 minutes!"

@@ -1,0 +1,30 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: backend-svc-uptime-critical-alerts
+  namespace: monitoring 
+  labels:
+    release: kps
+    role: alert-rules
+spec:
+  groups:
+  - name: service-health
+    rules:
+    - alert: BackendDown
+      expr: up{job="python-guestbook-backend"} == 0
+      for: 1m
+      labels:
+        severity: critical
+        team: backend
+      annotations:
+        summary: "Backend service is down"
+        description: "The backend service called: {{ $labels.service }} in the Namespace: {{ $labels.namespace }} is not reachable for more than 1 minutes!"
+    - alert: BackendServiceMissing
+      expr: absent(up{job="python-guestbook-backend"})
+      for: 1m
+      labels:
+        severity: critical
+        team: backend
+      annotations:
+        summary: "The backend service is not being scraped"
+        description: "Prometheus has not been able to scrape the backend service called: {{ $labels.service }} in the Namespace: {{ $labels.namespace }} for 1 minutes!"

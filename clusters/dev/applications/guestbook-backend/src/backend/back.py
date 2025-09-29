@@ -6,10 +6,18 @@ import time
 from flask import Flask, jsonify, request
 from flask_pymongo import PyMongo
 import bleach
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 app.config["MONGO_URI"] = 'mongodb://{}/guestbook'.format(os.environ.get('GUESTBOOK_DB_ADDR'))
 mongo = PyMongo(app)
+
+# static information as metric
+metrics.info('app_info', 'Application info', 
+             version='0.0.1',
+             environment='development',
+             service='guestbook-backend')
 
 @app.route('/messages', methods=['GET'])
 def get_messages():

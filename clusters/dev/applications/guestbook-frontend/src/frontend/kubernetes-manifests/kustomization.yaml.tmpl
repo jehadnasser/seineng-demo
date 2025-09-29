@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- guestbook-frontend.service.yaml
+- guestbook-frontend-ingress.yaml
+- guestbook-frontend.deployment.yaml
+- guestbook-frontend.servicemonitor.yaml
+
+# Replace the image name and tag
+images:
+- name: python-guestbook-frontend
+  newName: ${FRONTEND_IMAGE_NAME}
+  newTag: ${FRONTEND_IMAGE_TAG}
