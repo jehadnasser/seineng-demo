@@ -15,13 +15,14 @@ echo "\n\nBuilding and publishing images to the local registry..."
 
 local_reg="localhost:${reg_port}"
 # backend app
+backend_manifest_path="${ENV_PATH}/applications/guestbook-backend/src/backend/kubernetes-manifests"
 backend_full_image_name="${local_reg}/${backend_img_name}:${backend_img_tag}"
-backend_dockerfile_path="$REPO_ROOT/src/backend/Dockerfile"
-backend_context_path="$REPO_ROOT/src/backend/"
+backend_dockerfile_path="${ENV_PATH}/applications/guestbook-backend/src/backend/Dockerfile"
+backend_context_path="${ENV_PATH}/applications/guestbook-backend/src/backend/"
 # Frontend app
 frontend_full_image_name="${local_reg}/${frontend_img_name}:${frontend_img_tag}"
-frontend_dockerfile_path="$REPO_ROOT/src/frontend/Dockerfile"
-frontend_context_path="$REPO_ROOT/src/frontend/"
+frontend_dockerfile_path="${ENV_PATH}/applications/guestbook-frontend/src/frontend/Dockerfile"
+frontend_context_path="${ENV_PATH}/applications/guestbook-frontend/src/frontend/"
 
 # Backend app -----------------------------
 ##
