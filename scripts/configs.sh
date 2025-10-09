@@ -7,8 +7,10 @@
 ENV="dev"
 ENV_PATH="${REPO_ROOT}/clusters/${ENV}"
 
-# load the env vars
-source "${ENV_PATH}/secret.env"
+# load and export all env vars
+set -a
+source "${ENV_PATH}/secret.env" # re-source to export the variables
+set +a
 
 # local registry
 REG_NAME='kind-registry'
