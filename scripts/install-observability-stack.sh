@@ -1,5 +1,3 @@
-
-
 # # for testing this script only, uncomment the following lines:
 # #!/bin/sh
 # set -eo pipefail
@@ -27,10 +25,16 @@ echo "\n\nInstalling the Monitoring stack..."
 kubectl apply -f "${MONITORING_PATH}/namespaces.yaml"
 
 # install kube-prometheus-stack
+envsubst < "${MONITORING_PATH}/prometheus-stack/values.yaml" | \
 helm upgrade --install kps prometheus-community/kube-prometheus-stack \
   --namespace "monitoring" \
-  --values "${MONITORING_PATH}/prometheus-stack/values.yaml" \
+  --values - \
   --wait --atomic --timeout ${HELM_TIMEOUT} >/dev/null 2>&1 || true
+
+# helm upgrade --install kps prometheus-community/kube-prometheus-stack \
+#   --namespace "monitoring" \
+#   --values "${MONITORING_PATH}/prometheus-stack/values.yaml" \
+#   --wait --atomic --timeout ${HELM_TIMEOUT} >/dev/null 2>&1 || true
 echo "Prometheus, Grafana, and Alertmanager are installed!"
 
 
